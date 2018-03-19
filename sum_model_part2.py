@@ -690,7 +690,10 @@ def train_LSTM(MAX_SUMMARY_LEN, MAX_TEXT_LEN, D, HIDDEN_SIZE, LEARNING_RATE, K, 
                     for i in range(len(preds)):
                         system_generated_summary = preds[i]
                         manual_summmary = trues[i]
-                        [precision, recall, f_score] = r.rouge_l([system_generated_summary], [manual_summmary]) 
+                        try: 
+                            [precision, recall, f_score] = r.rouge_l([system_generated_summary], [manual_summmary]) 
+                        except ZeroDivisionError: 
+                            continue 
                         d.append((trues[i], preds[i], precision, recall, f_score, t, MAXIMUM_DATA_NUM, TRAINING_ITERS, LEARNING_RATE, HIDDEN_SIZE, K, D))
                         print("Summary" + str(i) + "\nPrecision is :"+str(precision)+"\nRecall is :"+str(recall)+"\nF Score is :"+str(f_score))
                     return d

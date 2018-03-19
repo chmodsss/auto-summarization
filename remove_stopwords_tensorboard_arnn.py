@@ -135,7 +135,7 @@ def train_RNN(SEQUENCE_LENGTH, EMBEDDING_DIM, HIDDEN_SIZE, ATTENTION_SIZE, KEEP_
         norm = (np.float64(i) - mini)/(maxi - mini)
         return norm
 
-    vocabulary_size = get_vocabulary_size(X_train)
+    vocabulary_size = int(get_vocabulary_size(X_train))
     print('SIZE X_TRAIN:'+ str(vocabulary_size))
 
     # Different placeholders
@@ -350,7 +350,10 @@ def train_RNN(SEQUENCE_LENGTH, EMBEDDING_DIM, HIDDEN_SIZE, ATTENTION_SIZE, KEEP_
         for i in range(len(rnn_outs)):
             system_generated_summary = rnn_out[i]
             manual_summmary = batch_words[i]
-            [precision, recall, f_score] = r.rouge_l([system_generated_summary], [manual_summmary]) 
+            try:
+                [precision, recall, f_score] = r.rouge_l([system_generated_summary], [manual_summmary]) 
+            except ZeroDivisionError: 
+                continue 
             d.append((batch_words[i], rnn_out[i], precision, recall, f_score, t, EMBEDDING_DIM, HIDDEN_SIZE, ATTENTION_SIZE, KEEP_PROB, BATCH_SIZE, NUM_EPOCHS, DELTA, LEARNING_RATE, ALPHA_DIVIDER))
             print("Summary" + str(i) + "\nPrecision is :"+str(precision)+"\nRecall is :"+str(recall)+"\nF Score is :"+str(f_score))
         return d
