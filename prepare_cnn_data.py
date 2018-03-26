@@ -28,7 +28,6 @@ def data_preparation(directory, MAXIMUM_DATA_NUM):
 #        embd.append(1)
         try:        ##ADDED MKLOENNE
             file = open(filename, encoding='utf-8')
-            print(file)
             for line in file.readlines(): 
                 row = line.strip().split(' ')
                 vocab.append(row[0])
@@ -201,7 +200,7 @@ def data_preparation(directory, MAXIMUM_DATA_NUM):
             for word in text:
                 if word not in vocab:
                     vocab.append(word)
-        print("DATA-PREPARATION: vocab_limit added by" + str(texts))
+        print("DATA-PREPARATION: vocab_limit added by")
      
     # add embedding of words from text to the embedded vocabulary list 
     def embds2vocab(texts, embd_vocab):
@@ -209,7 +208,7 @@ def data_preparation(directory, MAXIMUM_DATA_NUM):
             for word in text:
                 if word not in vocab:
                     embd.append(word2vec(word))
-        print("DATA-PREPARATION: embd_limit added by" + str(texts))
+        print("DATA-PREPARATION: embd_limit added by")
         
     words2vocab(texts, vocab_limit)
     words2vocab(summaries, vocab_limit)
@@ -245,7 +244,7 @@ def data_preparation(directory, MAXIMUM_DATA_NUM):
             vec = np.asarray(vec)
             vec = vec.astype(np.float32)
             vecs.append(vec)
-        print("DATA-PREPARATION: embedded & prepared " + str(texts))
+        print("DATA-PREPARATION: embedded & prepared ")
         return vecs
     
     vec_summaries = append_w2v(summaries)
